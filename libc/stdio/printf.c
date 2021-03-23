@@ -61,6 +61,8 @@ int printf(const char* restrict format, ...) {
 			if (!print(str, len))
 				return -1;
 			written += len;
+		} else if (*format == 'd') {
+			// TODO: Format integers.
 		} else {
 			format = format_begun_at;
 			size_t len = strlen(format);

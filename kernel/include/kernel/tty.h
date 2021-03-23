@@ -7,7 +7,7 @@
 /**
  * Initializes the terminal and clears the screen.
  */
-void terminal_initialize(void);
+void terminal_init(void);
 
 /**
  * Prints a single ASCII character to the screen.
