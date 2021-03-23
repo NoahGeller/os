@@ -5,6 +5,8 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#define GDT_CODE_SELECTOR	0x08
+
 struct GDTEntry {
 	uint32_t base;
 	uint32_t limit;
@@ -33,6 +35,6 @@ extern void load_gdt(uint64_t* GDT, size_t size);
  * GDT that maps all segments to the same 4 GiB, which is fully readable and
  * writeable, as though the segmentation never happened in the first place.
  */
-void disable_segmentation(void);
+void gdt_init(void);
 
 #endif

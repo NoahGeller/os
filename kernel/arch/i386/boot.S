@@ -27,6 +27,11 @@ gdtr:
 .short 0
 .long 0
 
+/* This record will hold the size and offset of the IDT. */
+idtr:
+.short 0
+.long 0
+
 .section .text
 
 .global load_gdt
@@ -37,6 +42,7 @@ load_gdt:
 	movl %eax, gdtr + 2
 	/* ESP+8 contains the size of the GDT. */
 	movw 8(%esp), %ax
+	sub 1, %ax
 	movw %ax, gdtr
 	/* Load the GDT using the newly populated record. */
 	lgdt gdtr
@@ -54,6 +60,20 @@ flush_gdt:
 	ret
 
 .size load_gdt, . - load_gdt
+
+.global load_idt
+.type load_idt, @function
+load_idt:
+	/* ESP+4 contains the address of the IDT. */
+	movl 4(%esp), %eax
+	movl %eax, idtr + 2
+	/* ESP+8 contains the size of the IDT. */
+	movw 8(%esp), %ax
+	sub 1, %ax
+	movw %ax, idtr
+	/* Load the IDT using the newly populated record. */
+	lidt idtr
+	ret
 
 .global _start
 .type _start, @function
